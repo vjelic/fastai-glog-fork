@@ -612,7 +612,8 @@ def find_coeffs(p1, p2):
     #The 8 scalars we seek are solution of AX = B
     A = stack(m).permute(2, 0, 1)
     B = p1.view(p1.shape[0], 8, 1)
-    return torch.solve(B,A)[0]
+    #return torch.solve(B,A)[0]
+    return torch.solve(B.to('cpu'),A.to('cpu'))[0].to(torch.cuda.current_device())
 
 # Cell
 def apply_perspective(coords, coeffs):
